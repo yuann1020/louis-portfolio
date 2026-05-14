@@ -1,147 +1,157 @@
+import Image from "next/image";
+import { FloatingNav } from "./components/FloatingNav";
+import { HeroRoleText } from "./components/HeroRoleText";
+import { FooterMarquee } from "./components/FooterMarquee";
 import { PortfolioInteractions } from "./components/PortfolioInteractions";
+import { CursorTurbulenceHero } from "./components/CursorTurbulenceHero";
+import {
+  ClientLoadingScreen,
+  ClientParallaxPlayground,
+} from "./components/ClientShell";
 
+// ─── Data ────────────────────────────────────────────────────────────────────
 const email = "louislausieyuan2005@gmail.com";
-
-const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#contact" },
-];
-
-const skillGroups = [
-  {
-    title: "Frontend & Mobile",
-    skills: [
-      "Next.js 14",
-      "React",
-      "Expo React Native",
-      "TypeScript",
-      "Tailwind CSS",
-      "Responsive UI",
-    ],
-  },
-  {
-    title: "Backend & APIs",
-    skills: [
-      "NestJS",
-      "FastAPI",
-      "REST APIs",
-      "JWT Authentication",
-      "Stripe Webhooks",
-      "Supabase Edge Functions",
-      "Nodemailer",
-    ],
-  },
-  {
-    title: "Data, Auth & Storage",
-    skills: [
-      "Prisma ORM",
-      "PostgreSQL/Supabase",
-      "Supabase Auth",
-      "Row Level Security",
-      "Firebase Auth",
-      "Firestore",
-      "Firebase Storage",
-    ],
-  },
-  {
-    title: "AI, Maps & State",
-    skills: [
-      "OpenAI Whisper",
-      "Gemini",
-      "Google Maps APIs",
-      "Google Places API",
-      "Google Geocoding API",
-      "React Query",
-      "Zustand",
-      "Recharts",
-    ],
-  },
-];
 
 const projects = [
   {
+    id: "repok",
+    index: "01",
     name: "Repok Pickleball Court Booking System",
     role: "Solo Full-Stack Developer",
-    context: "Full-stack venue booking and management platform",
+    context: "Full-stack venue booking & management platform",
     description:
-      "A full-stack pickleball venue booking and management platform with separate customer and admin workflows.",
+      "A full-stack pickleball venue booking and management platform with separate customer and admin workflows for court browsing, time-slot booking, payment review, and admin operations.",
     stack: [
       "Next.js 14",
       "TypeScript",
       "Tailwind CSS",
       "NestJS",
       "Prisma ORM",
-      "PostgreSQL/Supabase",
+      "PostgreSQL",
+      "Supabase",
       "JWT",
       "Stripe Webhooks",
       "Recharts",
     ],
     details: [
-      "Built customer and admin workflows for court browsing, time-slot booking, booking management, payment review, and admin operations.",
-      "Implemented smart court, date, and consecutive slot selection with real-time availability checking that prevents unavailable slots from being selected.",
-      "Created an unpaid booking hold countdown where pending bookings expire automatically and reserved court slots are released back to the public.",
-      "Built a wallet-based payment system with Stripe Checkout top-ups, wallet balance booking payment, manual QR payment proof upload, and admin payment verification.",
-      "Added court management, slot generation, slot blocking/unblocking, announcements, and admin payment approval/rejection operations.",
-      "Implemented Recharts revenue/booking analytics, NestJS REST APIs, Prisma ORM PostgreSQL/Supabase models, JWT authentication, Stripe webhook handling, and Nodemailer confirmation emails.",
+      "Built customer and admin workflows: court browsing, time-slot booking, booking management, payment review, and admin operations.",
+      "Implemented smart court, date, and consecutive slot selection with real-time availability checking — prevents selecting unavailable or blocked slots.",
+      "Created a configurable booking hold system where unpaid pending bookings expire automatically and reserved court slots release back to the public.",
+      "Built wallet-based payment: Stripe Checkout top-ups, wallet balance booking payment, manual QR proof upload, and admin payment approval/rejection.",
+      "Added court management, slot generation, slot blocking/unblocking, announcements, and Recharts revenue/booking analytics.",
+      "Implemented NestJS REST APIs, Prisma ORM PostgreSQL models, JWT authentication, Stripe webhook handling, and Nodemailer confirmation emails.",
     ],
+    screenshot: "/projects/repok.png",
+    screenshotAlt:
+      "Repok pickleball court booking system — admin dashboard showing court bookings, status chips, and revenue chart",
   },
   {
+    id: "mochi",
+    index: "02",
     name: "MochiMemo",
     role: "Solo Mobile / AI Developer",
     context: "AI voice-first mobile spending tracker",
     description:
-      "An AI voice-first mobile spending tracker that helps students and young professionals log expenses using voice or typed text faster.",
+      "An AI voice-first mobile spending tracker that lets students and young professionals log expenses by voice or typed text — faster than any form.",
     stack: [
       "Expo React Native",
       "TypeScript",
-      "Supabase Auth/Postgres/RLS",
-      "Supabase Edge Functions",
+      "Supabase Auth",
+      "PostgreSQL",
+      "Row Level Security",
+      "Edge Functions",
       "OpenAI Whisper",
       "React Query",
       "Zustand",
     ],
     details: [
-      "Built voice expense logging and typed expense logging for faster daily expense capture.",
+      "Built voice expense logging and typed expense logging for faster daily expense capture on mobile.",
       "Used OpenAI Whisper transcription through Supabase Edge Functions with AI extraction for amount, merchant, category, and date.",
-      "Designed a review-before-save flow where users can confirm and edit AI-extracted expense details before saving.",
-      "Implemented Supabase Auth, PostgreSQL storage, and Row Level Security so each user can only access their own expense records and profile data.",
-      "Built login/register, home dashboard, add expense, review expense, history, expense detail, insights, budget alert, and profile management screens.",
-      "Added monthly budget tracking, category breakdown, daily grouped expense history, budget alerts, AI spending insights, and React Query/Zustand state management.",
+      "Designed a review-before-save flow where users confirm and edit AI-extracted expense details before saving.",
+      "Implemented Supabase Auth, PostgreSQL storage, and Row Level Security — each user only accesses their own expense records and profile data.",
+      "Built full screen set: login/register, home dashboard, add expense, review expense, history, expense detail, insights, budget alert, and profile management.",
+      "Added monthly budget tracking, category breakdown, daily grouped expense history, budget alerts, AI spending insights, React Query, and Zustand state management.",
     ],
+    screenshot: "/projects/mochimemo.png",
+    screenshotAlt:
+      "MochiMemo AI spending tracker — mobile app interface showing expense history and voice logging",
   },
   {
+    id: "fnb",
+    index: "03",
     name: "F&B Genie",
     role: "Frontend Lead + Backend Contributor",
-    context: "UMHackathon 2026 Team Project",
+    context: "UMHackathon 2026 team project",
     description:
-      "An AI F&B feasibility investigator with case creation, chat workspace, upload, report, and Google Maps UI flows.",
+      "An AI F&B feasibility investigator with case creation, chat workspace, upload, report, and Google Maps UI flows. Built for UMHackathon 2026.",
     stack: [
       "Next.js",
       "TypeScript",
-      "Firebase Auth/Firestore/Storage",
+      "Firebase Auth",
+      "Firestore",
+      "Firebase Storage",
       "FastAPI",
-      "Google Maps/Places/Geocoding APIs",
+      "Google Maps APIs",
       "Gemini",
       "Tailwind CSS",
     ],
     details: [
-      "Led frontend development for the AI F&B feasibility investigator, including case creation, chat workspace, upload feature, report section, and Google Maps UI flows.",
-      "Connected the frontend with FastAPI routes and contributed backend routes for the investigation workflow.",
+      "Led frontend development for case creation, chat workspace, upload feature, report section, and Google Maps UI flows.",
+      "Connected frontend flows with FastAPI routes and contributed backend routes for the investigation workflow.",
       "Integrated Firebase Auth, Firestore, Firebase Storage, Google Places API, and Google Geocoding API.",
       "Built Gemini-powered investigation workflow touchpoints across chat, reports, and case data flows.",
       "Contributed database design and management, API-key and Google Client configuration, and deployed app workflows.",
     ],
+    screenshot: "/projects/fnb-genie.png",
+    screenshotAlt:
+      "F&B Genie AI feasibility investigator — workspace showing chat, map, and report interface",
   },
 ];
 
-const services = [
-  "Full-stack web application development",
-  "Mobile and AI-assisted prototype development",
-  "Dashboard and admin panel development",
-  "Portfolio project UI improvement",
+const skillGroups = [
+  {
+    title: "Frontend",
+    skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Expo React Native"],
+  },
+  {
+    title: "Backend",
+    skills: ["NestJS", "FastAPI", "REST APIs", "JWT", "Stripe Webhooks", "Nodemailer"],
+  },
+  {
+    title: "Database / Cloud",
+    skills: [
+      "PostgreSQL",
+      "Supabase",
+      "Prisma ORM",
+      "Firebase Auth",
+      "Firestore",
+      "Firebase Storage",
+      "RLS",
+      "Edge Functions",
+    ],
+  },
+  {
+    title: "AI / Product",
+    skills: [
+      "OpenAI Whisper",
+      "Gemini",
+      "AI Extraction",
+      "Google Maps API",
+      "Google Places API",
+      "Recharts",
+    ],
+  },
+  {
+    title: "Tools",
+    skills: ["GitHub", "VS Code", "Postman", "Docker", "React Query", "Zustand"],
+  },
+];
+
+const stats = [
+  { number: "3",      label: "Featured Projects" },
+  { number: "2",      label: "Solo Products" },
+  { number: "1",      label: "Hackathon Build" },
+  { number: "FS+M+AI", label: "Full-Stack · Mobile · AI" },
 ];
 
 const contactLinks = [
@@ -149,418 +159,477 @@ const contactLinks = [
     label: "Email",
     value: email,
     href: `mailto:${email}`,
+    external: false,
   },
   {
     label: "GitHub",
     value: "github.com/yuann1020",
     href: "https://github.com/yuann1020",
+    external: true,
   },
   {
     label: "LinkedIn",
-    value: "linkedin.com/in/louis-lau-b64577401",
+    value: "louis-lau-b64577401",
     href: "https://www.linkedin.com/in/louis-lau-b64577401/",
+    external: true,
   },
 ];
 
-const introPanels = [
-  "Next.js / NestJS / Prisma",
-  "Expo / Supabase / Whisper",
-  "FastAPI / Firebase / Gemini",
-];
-
-function SectionHeading({
-  eyebrow,
-  title,
-  description,
-  tone = "light",
-}: {
-  eyebrow: string;
-  title: string;
-  description: string;
-  tone?: "light" | "dark";
-}) {
-  const titleClass =
-    tone === "dark"
-      ? "mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-4xl"
-      : "mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.04em] text-neutral-950 sm:text-4xl";
-  const descriptionClass =
-    tone === "dark"
-      ? "mt-4 max-w-2xl text-base leading-7 text-neutral-300"
-      : "mt-4 max-w-2xl text-base leading-7 text-neutral-600";
+// ─── CSS Placeholder Visuals (shown if screenshot fails to load) ──────────────
+function RepokVisualFallback() {
+  const rows = [
+    { court: "Court A", time: "09:00", status: "Paid",    amt: "RM 40", badge: "vis-badge-paid" },
+    { court: "Court B", time: "10:30", status: "Pending", amt: "RM 40", badge: "vis-badge-pending" },
+    { court: "Court C", time: "12:00", status: "Hold",    amt: "RM 40", badge: "vis-badge-hold" },
+    { court: "Court A", time: "14:00", status: "Paid",    amt: "RM 80", badge: "vis-badge-paid" },
+  ];
+  const bars = [52, 78, 44, 92, 65, 83, 58];
 
   return (
-    <div className="max-w-3xl" data-reveal>
-      <p className="mono-label">{eyebrow}</p>
-      <h2 className={titleClass}>{title}</h2>
-      <p className={descriptionClass}>{description}</p>
+    <div className="vis-repok">
+      <div className="vis-window-bar">
+        <div className="vis-dot" /><div className="vis-dot" /><div className="vis-dot" />
+        <span className="vis-window-label">Admin · Court Bookings</span>
+      </div>
+      <div className="vis-table">
+        <div className="vis-row vis-row-head">
+          <span>Court</span><span>Time</span><span>Status</span><span>Amt</span>
+        </div>
+        {rows.map((r) => (
+          <div key={r.time} className="vis-row">
+            <span>{r.court}</span>
+            <span>{r.time}</span>
+            <span><span className={`vis-badge ${r.badge}`}>{r.status}</span></span>
+            <span>{r.amt}</span>
+          </div>
+        ))}
+      </div>
+      <div className="vis-chart-wrap">
+        {bars.map((h, i) => (
+          <div key={i} className="vis-bar" style={{ height: `${h}%` }} />
+        ))}
+      </div>
     </div>
   );
 }
 
-function ProjectPreview({
+function MochiVisualFallback() {
+  const items = [
+    { dot: "vis-exp-dot-food",  w1: 65, w2: 40, amt: "RM 28.50" },
+    { dot: "vis-exp-dot-shop",  w1: 55, w2: 50, amt: "RM 15.00" },
+    { dot: "vis-exp-dot-trans", w1: 70, w2: 35, amt: "RM 3.60"  },
+    { dot: "vis-exp-dot-food",  w1: 60, w2: 45, amt: "RM 12.90" },
+  ];
+  return (
+    <div className="vis-mochi">
+      <div className="vis-phone">
+        <div className="vis-phone-notch" />
+        <div className="vis-phone-balance">
+          <div className="vis-phone-balance-label">Monthly Spent</div>
+          <div className="vis-phone-balance-amt">RM 428.50</div>
+        </div>
+        {items.map((item, i) => (
+          <div key={i} className="vis-expense-item">
+            <div className={`vis-exp-dot ${item.dot}`} />
+            <div className="vis-exp-lines">
+              <div className="vis-exp-line" style={{ width: `${item.w1}%` }} />
+              <div className="vis-exp-line" style={{ width: `${item.w2}%` }} />
+            </div>
+            <div className="vis-exp-amt">{item.amt}</div>
+          </div>
+        ))}
+        <div className="vis-phone-tabs">
+          <div className="vis-tab-dot vis-tab-dot-active" />
+          <div className="vis-tab-dot" /><div className="vis-tab-dot" /><div className="vis-tab-dot" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FnbVisualFallback() {
+  const metrics = [{ bar: 72, label: 50 }, { bar: 58, label: 35 }, { bar: 85, label: 60 }];
+  return (
+    <div className="vis-fnb">
+      <div className="vis-map">
+        <div className="vis-map-dots" />
+        <div className="vis-marker vis-marker-1" />
+        <div className="vis-marker vis-marker-2" />
+        <div className="vis-marker vis-marker-3" />
+      </div>
+      <div className="vis-report">
+        <div className="vis-report-label">F&B Analysis</div>
+        <div className="vis-report-badge">AI Report</div>
+        {metrics.map((m, i) => (
+          <div key={i} className="vis-metric-row">
+            <div className="vis-metric-bar-track">
+              <div className="vis-metric-bar" style={{ width: `${m.bar}%` }} />
+            </div>
+            <div className="vis-metric-label" style={{ width: `${m.label}%` }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Project Card ─────────────────────────────────────────────────────────────
+function ProjectCard({
   project,
-  index,
+  fallback,
+  cardClass,
+  revealDelay,
+  imgSizes,
 }: {
   project: (typeof projects)[number];
-  index: number;
+  fallback: React.ReactNode;
+  cardClass: string;
+  revealDelay: string;
+  imgSizes: string;
 }) {
   return (
-    <article className={`floating-panel floating-panel-${index + 1}`}>
-      <p className="font-mono text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
-        0{index + 1} / Selected work
-      </p>
-      <h2 className="mt-4 text-lg font-semibold leading-tight tracking-[-0.04em] text-neutral-950">
-        {project.name}
-      </h2>
-      <p className="mt-3 text-sm leading-6 text-neutral-600">
-        {project.context}
-      </p>
-      <div className="mt-5 flex flex-wrap gap-2">
-        {project.stack.slice(0, 3).map((tech) => (
-          <span key={tech} className="mini-chip">
-            {tech}
-          </span>
-        ))}
+    <article className={`bento-card ${cardClass} ${revealDelay}`} data-reveal>
+      {/* Visual area — screenshot + CSS fallback + overlays */}
+      <div className="bento-visual">
+        {/* CSS fallback (below screenshot, always rendered) */}
+        <div className="bento-css-fallback" aria-hidden="true">
+          {fallback}
+        </div>
+
+        {/* Screenshot — covers fallback when loaded */}
+        <Image
+          src={project.screenshot}
+          alt={project.screenshotAlt}
+          fill
+          sizes={imgSizes}
+          className="bento-screenshot"
+          quality={90}
+        />
+
+        {/* Cinematic dark gradient over screenshot */}
+        <div className="bento-screenshot-overlay" aria-hidden="true" />
+
+        {/* Accent hover tint */}
+        <div className="bento-visual-overlay" aria-hidden="true" />
+      </div>
+
+      {/* Card content */}
+      <div className="bento-content">
+        <div className="bento-meta">
+          <span className="bento-index">{project.index}</span>
+          <span className="bento-role-badge">{project.role}</span>
+        </div>
+
+        <p className="bento-ctx">{project.context}</p>
+        <h3 className="bento-title">{project.name}</h3>
+        <p className="bento-desc">{project.description}</p>
+
+        <div className="bento-stack">
+          {project.stack.map((tech) => (
+            <span key={tech} className="dark-chip">{tech}</span>
+          ))}
+        </div>
+
+        <details className="proj-details">
+          <summary className="proj-summary">
+            <span>View implementation details</span>
+            <span className="proj-toggle" aria-hidden="true">+</span>
+          </summary>
+          <ul className="proj-detail-list">
+            {project.details.map((item) => (
+              <li key={item} className="proj-detail-item">
+                <span className="proj-detail-dot" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
       </div>
     </article>
   );
 }
 
-function DetailList({ items }: { items: string[] }) {
-  return (
-    <ul className="mt-4 grid gap-3 text-sm leading-6 text-neutral-300">
-      {items.map((item) => (
-        <li key={item} className="flex gap-3">
-          <span className="mt-[0.55rem] size-1.5 shrink-0 rounded-full bg-neutral-500" />
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
+// ─── Page ────────────────────────────────────────────────────────────────────
 export default function Home() {
   return (
-    <main className="site-shell min-h-screen bg-background text-foreground">
+    <>
+      <ClientLoadingScreen />
       <PortfolioInteractions email={email} />
-      <div className="scroll-progress" aria-hidden="true" />
+      <div className="scroll-progress-bar" aria-hidden="true" />
+      <FloatingNav email={email} />
 
-      <header className="sticky top-0 z-50 border-b border-[var(--hairline)] bg-white/82 backdrop-blur-xl">
-        <nav className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-3 sm:px-6 lg:min-h-16 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-          <a
-            href="#top"
-            className="group flex w-fit items-center gap-3 text-sm font-semibold tracking-[-0.02em] text-neutral-950"
-            aria-label="Louis Lau portfolio home"
-          >
-            <span className="flex size-9 items-center justify-center rounded-md border border-neutral-950 bg-neutral-950 text-xs font-semibold text-white transition-colors duration-300 group-hover:bg-white group-hover:text-neutral-950">
-              LL
-            </span>
-            <span>Louis Lau</span>
-          </a>
+      <main>
+        {/* ─── 1. Hero ───────────────────────────────────────────────── */}
+        <section id="hero" data-section="hero" className="hero-section">
 
-          <div className="flex flex-wrap items-center gap-1 text-sm text-neutral-600">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                data-nav-link
-                className="nav-link"
-              >
-                {item.label}
-              </a>
-            ))}
+          {/* Layer -1: CSS fallback background (shown if video fails) */}
+          <div className="hero-bg" aria-hidden="true">
+            <div className="hero-bg-gradient" />
+            <div className="hero-bg-glow hero-bg-glow-1" />
+            <div className="hero-bg-glow hero-bg-glow-2" />
           </div>
-        </nav>
-      </header>
 
-      <section
-        id="top"
-        data-section="top"
-        className="intro-shell relative isolate overflow-hidden border-b border-[var(--hairline)]"
-      >
-        <div className="hero-mesh" aria-hidden="true" />
-        <div className="technical-grid" aria-hidden="true" />
+          {/* Layer 0: Video background — autoPlay+muted+playsInline required for mobile */}
+          <video
+            className="hero-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+          >
+            <source src="/videos/hero-bg.webm" type="video/webm" />
+          </video>
 
-        <div className="mx-auto max-w-6xl px-4 pt-10 sm:px-6 sm:pt-14 lg:px-8">
-          <div className="intro-sequence" aria-label="Louis Lau introduction">
-            <div className="intro-copy">
-              <p className="mono-label intro-animate intro-delay-1">
-                CSS-first 3D portfolio
-              </p>
-              <p className="intro-name intro-animate intro-delay-2">
-                Louis Lau
-              </p>
-              <p className="intro-role intro-animate intro-delay-3">
-                Year 2 Computer Science Student / Full-Stack Developer
-              </p>
+          {/* Layer 3: Cursor turbulence glass lens (client, desktop only) */}
+          <CursorTurbulenceHero />
+
+          {/* Layer 1: Dark overlay — contrast + bottom fade to next section */}
+          <div className="hero-video-overlay" aria-hidden="true" />
+
+          {/* Layer 2: Subtle grid texture on top of overlay */}
+          <div className="hero-grid-overlay" aria-hidden="true" />
+
+          {/* Layer 5: Main content */}
+          <div className="hero-content">
+            <p className="hero-eyebrow">Portfolio&nbsp;&nbsp;&#x2019;26</p>
+
+            <h1 className="hero-name">Louis Lau</h1>
+
+            {/* Stable sentence: fixed-width role container prevents layout shift */}
+            <p className="hero-tagline">
+              A{" "}
+              <HeroRoleText />{" "}
+              building practical digital products.
+            </p>
+
+            <p className="hero-desc">
+              I build full-stack, mobile, and AI-assisted products with clean
+              interfaces, reliable backend systems, and practical user workflows.
+            </p>
+
+            <div className="hero-actions">
+              <a href="#projects" className="btn-primary">View Projects</a>
+              <a href={`mailto:${email}`} className="btn-ghost">Reach Out</a>
             </div>
-            <div className="intro-orbit" aria-hidden="true">
-              {introPanels.map((panel, index) => (
-                <span
-                  key={panel}
-                  className={`intro-card intro-card-${index + 1}`}
+          </div>
+
+          {/* Layer 5: Scroll indicator */}
+          <div className="scroll-indicator" aria-hidden="true">
+            <span className="scroll-indicator-label">Scroll</span>
+            <div className="scroll-indicator-line" />
+          </div>
+        </section>
+
+        {/* ─── 2. Projects ───────────────────────────────────────────── */}
+        <section id="projects" data-section="projects" className="projects-section">
+          <div className="section-wrap">
+            <header className="section-header" data-reveal>
+              <p className="section-eyebrow">Selected Work</p>
+              <h2 className="section-title">
+                Resume-aligned projects, deeper on demand.
+              </h2>
+              <p className="section-subtitle">
+                Three real products built from scratch — full-stack, mobile,
+                and hackathon. Expand each card for implementation details.
+              </p>
+            </header>
+
+            <div className="bento-grid">
+              <ProjectCard
+                project={projects[0]}
+                fallback={<RepokVisualFallback />}
+                cardClass="bento-card-repok"
+                revealDelay="reveal-delay-1"
+                imgSizes="(max-width: 1023px) 100vw, (max-width: 1280px) 62vw, 800px"
+              />
+              <ProjectCard
+                project={projects[1]}
+                fallback={<MochiVisualFallback />}
+                cardClass="bento-card-mochi"
+                revealDelay="reveal-delay-2"
+                imgSizes="(max-width: 1023px) 100vw, (max-width: 1280px) 38vw, 480px"
+              />
+              <ProjectCard
+                project={projects[2]}
+                fallback={<FnbVisualFallback />}
+                cardClass="bento-card-fnb"
+                revealDelay="reveal-delay-3"
+                imgSizes="(max-width: 1023px) 100vw, (max-width: 1280px) 62vw, 800px"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ─── 3. Skills ─────────────────────────────────────────────── */}
+        <section id="skills" data-section="skills">
+          <div className="section-wrap">
+            <header className="section-header" data-reveal>
+              <p className="section-eyebrow">Skills</p>
+              <h2 className="section-title">
+                A stack shaped by real product work.
+              </h2>
+              <p className="section-subtitle">
+                Every technology below was used in Repok, MochiMemo, or F&B
+                Genie — grouped by domain.
+              </p>
+            </header>
+
+            <div className="skills-grid">
+              {skillGroups.map((group, i) => (
+                <article
+                  key={group.title}
+                  className={`skill-card reveal-delay-${(i % 4) + 1}`}
+                  data-reveal
                 >
-                  {panel}
-                </span>
+                  <h3 className="skill-card-title">{group.title}</h3>
+                  <div className="skill-tags">
+                    {group.skills.map((skill) => (
+                      <span key={skill} className="skill-tag">{skill}</span>
+                    ))}
+                  </div>
+                </article>
               ))}
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="hero-section mx-auto grid max-w-6xl gap-12 px-4 pb-20 pt-14 sm:px-6 sm:pb-24 sm:pt-20 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:px-8 lg:pb-32 lg:pt-24">
-          <div className="hero-copy">
-            <p className="mono-label hero-animate hero-delay-1">
-              Malaysia based developer
-            </p>
-            <h1 className="hero-animate hero-delay-2 mt-7 max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.06em] text-neutral-950 sm:text-6xl lg:text-7xl">
-              Building useful products with depth, clarity, and reliable code.
-            </h1>
-            <p className="hero-animate hero-delay-3 mt-8 max-w-2xl text-lg leading-8 text-neutral-600">
-              I am a Year 2 Computer Science student at University of Malaya
-              focused on full-stack development, mobile AI products, clean UI,
-              backend systems, database design, and practical product-building.
-            </p>
-            <div className="hero-animate hero-delay-4 mt-10 flex flex-col gap-3 sm:flex-row">
-              <a href="#projects" className="button-primary">
-                View Projects
-              </a>
-              <a href={`mailto:${email}`} className="button-secondary">
-                Contact Me
-              </a>
-            </div>
-          </div>
+        {/* ─── 4. About ──────────────────────────────────────────────── */}
+        <section id="about" data-section="about" className="about-section">
+          <div className="section-wrap">
+            <div className="about-grid">
+              <header data-reveal>
+                <p className="section-eyebrow">About</p>
+                <h2 className="section-title">
+                  Computer science foundation with product execution.
+                </h2>
+                <p className="about-bio" style={{ marginTop: "1.5rem" }}>
+                  I am Louis Lau, a Year 2 Computer Science student at
+                  University of Malaya with a foundation background from
+                  University of Technology Malaysia. I focus on full-stack
+                  development, mobile AI applications, backend systems, database
+                  design, and practical product-building. I enjoy turning ideas
+                  into working applications with strong user experience and
+                  reliable technical structure.
+                </p>
+              </header>
 
-          <aside
-            className="hero-stage hero-animate hero-delay-5"
-            aria-label="Project and profile highlights"
-          >
-            <div className="stage-plane" aria-hidden="true" />
-            <div className="stage-grid" aria-hidden="true" />
-            {projects.map((project, index) => (
-              <ProjectPreview
-                key={project.name}
-                project={project}
-                index={index}
-              />
-            ))}
-            <div className="profile-slab">
-              <p className="mono-label">Profile</p>
-              <dl className="mt-5 grid gap-4 text-sm">
-                <div>
-                  <dt className="text-neutral-500">University</dt>
-                  <dd className="mt-1 font-medium text-neutral-950">
-                    University of Malaya
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-neutral-500">Foundation</dt>
-                  <dd className="mt-1 font-medium text-neutral-950">
-                    University of Technology Malaysia
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-neutral-500">Location</dt>
-                  <dd className="mt-1 font-medium text-neutral-950">
-                    Malaysia
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <section id="about" data-section="about" className="section-band">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8 lg:py-24">
-          <SectionHeading
-            eyebrow="About"
-            title="Computer science foundation with product execution."
-            description="A recruiter-friendly profile for teams looking for a developer who can move from interface to backend structure."
-          />
-          <div className="card-surface depth-card p-6 sm:p-8" data-reveal>
-            <p className="text-lg leading-8 text-neutral-700">
-              I am a Year 2 Computer Science student at University of Malaya
-              with a foundation background from University of Technology
-              Malaysia. I focus on full-stack development, clean UI, backend
-              systems, database design, and practical product-building. I enjoy
-              turning ideas into working applications with a strong user
-              experience and reliable technical structure.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="skills"
-        data-section="skills"
-        className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24"
-      >
-        <SectionHeading
-          eyebrow="Skills"
-          title="A stack shaped by full-stack, mobile, AI, and product workflows."
-          description="Grouped from the technologies used across Repok, MochiMemo, and F&B Genie."
-        />
-        <div className="depth-grid mt-10 grid gap-4 sm:grid-cols-2">
-          {skillGroups.map((group, index) => (
-            <article
-              key={group.title}
-              className={`card-surface interactive-card depth-card p-6 reveal-delay-${index + 1}`}
-              data-reveal
-            >
-              <h3 className="text-xl font-semibold tracking-[-0.03em] text-neutral-950">
-                {group.title}
-              </h3>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {group.skills.map((skill) => (
-                  <span key={skill} className="skill-chip">
-                    {skill}
-                  </span>
+              <div className="about-cards" data-reveal>
+                {[
+                  { label: "University",  value: "University of Malaya" },
+                  { label: "Year",        value: "Year 2 · Computer Science" },
+                  { label: "Foundation",  value: "UTM · University of Technology Malaysia" },
+                  { label: "Focus",       value: "Full-Stack · Mobile · AI · Backend" },
+                  { label: "Location",    value: "Malaysia" },
+                  { label: "Status",      value: "Open to internships & collaborations" },
+                ].map((card) => (
+                  <div key={card.label} className="about-card">
+                    <div className="about-card-label">{card.label}</div>
+                    <div className="about-card-value">{card.value}</div>
+                  </div>
                 ))}
               </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section
-        id="projects"
-        data-section="projects"
-        className="border-y border-neutral-800 bg-[var(--ink)] text-white"
-      >
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <SectionHeading
-            eyebrow="Selected work"
-            title="Resume-aligned projects with deeper details on demand."
-            description="Main cards stay concise. Expand each project to inspect the resume-level implementation details."
-            tone="dark"
-          />
-          <div className="project-grid mt-10 grid gap-4 lg:grid-cols-3">
-            {projects.map((project, index) => (
-              <article
-                key={project.name}
-                className={`project-card reveal-delay-${index + 1}`}
-                data-reveal
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <p className="font-mono text-xs text-neutral-500">
-                    0{index + 1}
-                  </p>
-                  <p className="rounded-full border border-white/10 px-3 py-1 text-xs text-neutral-300">
-                    {project.role}
-                  </p>
-                </div>
-                <p className="mt-8 font-mono text-xs uppercase tracking-[0.18em] text-neutral-500">
-                  {project.context}
-                </p>
-                <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.04em] text-white">
-                  {project.name}
-                </h3>
-                <p className="mt-5 text-sm leading-7 text-neutral-300">
-                  {project.description}
-                </p>
-                <div className="mt-7 flex flex-wrap gap-2">
-                  {project.stack.map((tech) => (
-                    <span key={tech} className="dark-chip">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                <details className="project-details mt-7">
-                  <summary className="project-summary">
-                    <span>View details</span>
-                  </summary>
-                  <DetailList items={project.details} />
-                </details>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="services"
-        data-section="services"
-        className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24"
-      >
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <SectionHeading
-            eyebrow="Collaboration"
-            title="Professional support for practical digital products."
-            description="Useful for teams, student builders, and early-stage ideas that need working interfaces and reliable technical structure."
-          />
-          <div className="depth-grid grid gap-4 sm:grid-cols-2">
-            {services.map((service, index) => (
-              <article
-                key={service}
-                className={`card-surface interactive-card depth-card p-6 reveal-delay-${index + 1}`}
-                data-reveal
-              >
-                <p className="text-base font-medium leading-7 text-neutral-950">
-                  {service}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" data-section="contact" className="section-band">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
-          <SectionHeading
-            eyebrow="Contact"
-            title="Open to internships, collaborations, and project conversations."
-            description="Reach out directly through email, GitHub, or LinkedIn. No contact form is included until a backend is available."
-          />
-          <div className="card-surface depth-card p-6 sm:p-8" data-reveal>
-            <div className="grid gap-4">
-              {contactLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target={link.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    link.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="contact-link"
-                >
-                  <span className="mono-label">{link.label}</span>
-                  <span className="mt-2 block break-words text-base font-medium text-neutral-950">
-                    {link.value}
-                  </span>
-                </a>
-              ))}
-              <button
-                type="button"
-                className="copy-button"
-                data-copy-email={email}
-                aria-label="Copy email address"
-              >
-                <span data-copy-label>Copy email</span>
-              </button>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <footer className="border-t border-[var(--hairline)] bg-white">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-10 text-sm text-neutral-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-          <p>Louis Lau - Full-Stack Developer based in Malaysia.</p>
-          <div className="flex gap-4">
-            <a className="footer-link" href="#top">
-              Top
-            </a>
-            <a className="footer-link" href="#projects">
-              Projects
-            </a>
-            <a className="footer-link" href={`mailto:${email}`}>
-              Email
-            </a>
+        {/* ─── 5. Parallax Playground ────────────────────────────────── */}
+        <ClientParallaxPlayground />
+
+        {/* ─── 6. Stats ──────────────────────────────────────────────── */}
+        <section aria-label="Portfolio statistics" className="stats-section">
+          <div className="stats-grid">
+            {stats.map((stat, i) => (
+              <div
+                key={stat.label}
+                className={`stat-item reveal-delay-${i + 1}`}
+                data-reveal
+              >
+                <div className="stat-number">{stat.number}</div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
+            ))}
           </div>
-        </div>
-      </footer>
-    </main>
+        </section>
+
+        {/* ─── 7. Contact ────────────────────────────────────────────── */}
+        <section id="contact" data-section="contact" className="contact-section">
+          <div className="section-wrap">
+            <div className="contact-grid">
+              <header data-reveal>
+                <p className="section-eyebrow">Contact</p>
+                <h2 className="section-title">
+                  Open to internships and collaborations.
+                </h2>
+                <p className="section-subtitle" style={{ marginTop: "1rem" }}>
+                  Reach out directly through email, GitHub, or LinkedIn.
+                </p>
+                <div className="contact-availability" style={{ marginTop: "2rem" }}>
+                  <span className="contact-availability-dot" />
+                  Available for internships, collaborations, and project opportunities
+                </div>
+              </header>
+
+              <div data-reveal>
+                <div className="contact-links">
+                  {contactLinks.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      className="contact-link"
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noopener noreferrer" : undefined}
+                    >
+                      <span className="contact-link-label">{link.label}</span>
+                      <span className="contact-link-value">{link.value}</span>
+                    </a>
+                  ))}
+
+                  <button
+                    type="button"
+                    className="copy-btn"
+                    data-copy-email={email}
+                    aria-label="Copy email address"
+                  >
+                    <span data-copy-label>Copy email</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── Footer ────────────────────────────────────────────────── */}
+        <footer className="site-footer">
+          <FooterMarquee />
+          <div className="footer-bottom">
+            <p className="footer-copy">
+              Louis Lau — Full-Stack Developer · Malaysia · 2026
+            </p>
+            <nav className="footer-links" aria-label="Footer navigation">
+              <a href="#hero" className="footer-link">Top</a>
+              <a href="#projects" className="footer-link">Projects</a>
+              <a
+                href="https://github.com/yuann1020"
+                className="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+              <a
+                href="https://www.linkedin.com/in/louis-lau-b64577401/"
+                className="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+            </nav>
+          </div>
+        </footer>
+      </main>
+    </>
   );
 }

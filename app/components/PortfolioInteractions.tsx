@@ -11,6 +11,7 @@ export function PortfolioInteractions({ email }: { email: string }) {
 
     root.classList.add("motion-ready");
 
+    // ── Scroll reveal ──────────────────────────────────────
     const revealItems = Array.from(
       document.querySelectorAll<HTMLElement>("[data-reveal]"),
     );
@@ -18,7 +19,7 @@ export function PortfolioInteractions({ email }: { email: string }) {
     let revealObserver: IntersectionObserver | undefined;
 
     if (reduceMotion) {
-      revealItems.forEach((item) => item.classList.add("is-visible"));
+      revealItems.forEach((el) => el.classList.add("is-visible"));
     } else {
       const observer = new IntersectionObserver(
         (entries) => {
@@ -29,49 +30,14 @@ export function PortfolioInteractions({ email }: { email: string }) {
             }
           });
         },
-        {
-          rootMargin: "0px 0px -12% 0px",
-          threshold: 0.12,
-        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.08 },
       );
-
       revealObserver = observer;
-      revealItems.forEach((item) => observer.observe(item));
+      revealItems.forEach((el) => observer.observe(el));
     }
 
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-section]"),
-    );
-    const navLinks = Array.from(
-      document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"),
-    );
-
-    const setActiveSection = (sectionId: string) => {
-      navLinks.forEach((link) => {
-        const href = link.getAttribute("href");
-        link.classList.toggle("is-active", href === `#${sectionId}`);
-      });
-    };
-
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        const visibleEntry = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visibleEntry?.target instanceof HTMLElement) {
-          setActiveSection(visibleEntry.target.id);
-        }
-      },
-      {
-        rootMargin: "-28% 0px -58% 0px",
-        threshold: [0.05, 0.2, 0.45, 0.7],
-      },
-    );
-
-    sections.forEach((section) => sectionObserver.observe(section));
-
-    const updateScrollProgress = () => {
+    // ── Scroll progress bar ────────────────────────────────
+    const updateProgress = () => {
       const scrollable =
         document.documentElement.scrollHeight - window.innerHeight;
       const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
@@ -81,55 +47,48 @@ export function PortfolioInteractions({ email }: { email: string }) {
       );
     };
 
-    updateScrollProgress();
-    window.addEventListener("scroll", updateScrollProgress, { passive: true });
-    window.addEventListener("resize", updateScrollProgress);
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
 
+    // ── Copy email button ──────────────────────────────────
     const copyButtons = Array.from(
       document.querySelectorAll<HTMLButtonElement>("[data-copy-email]"),
     );
-    const cleanupCopyHandlers: Array<() => void> = [];
+    const cleanups: Array<() => void> = [];
 
-    copyButtons.forEach((button) => {
-      const label = button.querySelector<HTMLElement>("[data-copy-label]");
-      let resetTimer: number | undefined;
+    copyButtons.forEach((btn) => {
+      const label = btn.querySelector<HTMLElement>("[data-copy-label]");
+      let timer: number | undefined;
 
-      const setLabel = (text: string, copied: boolean) => {
-        if (label) {
-          label.textContent = text;
-        }
-        button.dataset.copied = copied ? "true" : "false";
+      const setLabel = (text: string) => {
+        if (label) label.textContent = text;
       };
 
-      const handleCopy = async () => {
-        window.clearTimeout(resetTimer);
-
+      const handle = async () => {
+        window.clearTimeout(timer);
         try {
           await navigator.clipboard.writeText(email);
-          setLabel("Copied", true);
+          setLabel("Copied!");
         } catch {
-          setLabel("Copy failed", false);
+          setLabel("Copy failed");
         }
-
-        resetTimer = window.setTimeout(() => {
-          setLabel("Copy email", false);
-        }, 1800);
+        timer = window.setTimeout(() => setLabel("Copy email"), 2000);
       };
 
-      button.addEventListener("click", handleCopy);
-      cleanupCopyHandlers.push(() => {
-        window.clearTimeout(resetTimer);
-        button.removeEventListener("click", handleCopy);
+      btn.addEventListener("click", handle);
+      cleanups.push(() => {
+        window.clearTimeout(timer);
+        btn.removeEventListener("click", handle);
       });
     });
 
     return () => {
-      revealItems.forEach((item) => item.classList.remove("is-visible"));
-      sectionObserver.disconnect();
-      window.removeEventListener("scroll", updateScrollProgress);
-      window.removeEventListener("resize", updateScrollProgress);
-      cleanupCopyHandlers.forEach((cleanup) => cleanup());
       revealObserver?.disconnect();
+      revealItems.forEach((el) => el.classList.remove("is-visible"));
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+      cleanups.forEach((fn) => fn());
       root.classList.remove("motion-ready");
       root.style.removeProperty("--scroll-progress");
     };

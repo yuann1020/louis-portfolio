@@ -1,21 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--inter-font",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
+  variable: "--display-font",
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Louis Lau | Full-Stack, Mobile & AI Developer",
   description:
-    "Portfolio of Louis Lau, a Year 2 Computer Science student at University of Malaya building full-stack, mobile, and AI-assisted products.",
+    "Portfolio of Louis Lau, a Year 2 CS student at University of Malaya building full-stack, mobile, and AI-assisted products.",
 };
 
 export default function RootLayout({
@@ -26,11 +31,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full`}
+      className={`${inter.variable} ${instrumentSerif.variable}`}
     >
-      <body className="min-h-full bg-background text-foreground font-sans antialiased">
-        {children}
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
