@@ -162,6 +162,12 @@ const contactLinks = [
   },
 ];
 
+const introPanels = [
+  "Next.js / NestJS / Prisma",
+  "Expo / Supabase / Whisper",
+  "FastAPI / Firebase / Gemini",
+];
+
 function SectionHeading({
   eyebrow,
   title,
@@ -191,6 +197,35 @@ function SectionHeading({
   );
 }
 
+function ProjectPreview({
+  project,
+  index,
+}: {
+  project: (typeof projects)[number];
+  index: number;
+}) {
+  return (
+    <article className={`floating-panel floating-panel-${index + 1}`}>
+      <p className="font-mono text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
+        0{index + 1} / Selected work
+      </p>
+      <h2 className="mt-4 text-lg font-semibold leading-tight tracking-[-0.04em] text-neutral-950">
+        {project.name}
+      </h2>
+      <p className="mt-3 text-sm leading-6 text-neutral-600">
+        {project.context}
+      </p>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {project.stack.slice(0, 3).map((tech) => (
+          <span key={tech} className="mini-chip">
+            {tech}
+          </span>
+        ))}
+      </div>
+    </article>
+  );
+}
+
 function DetailList({ items }: { items: string[] }) {
   return (
     <ul className="mt-4 grid gap-3 text-sm leading-6 text-neutral-300">
@@ -206,11 +241,11 @@ function DetailList({ items }: { items: string[] }) {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="site-shell min-h-screen bg-background text-foreground">
       <PortfolioInteractions email={email} />
       <div className="scroll-progress" aria-hidden="true" />
 
-      <header className="sticky top-0 z-50 border-b border-[var(--hairline)] bg-white/85 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-[var(--hairline)] bg-white/82 backdrop-blur-xl">
         <nav className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-3 sm:px-6 lg:min-h-16 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <a
             href="#top"
@@ -241,22 +276,49 @@ export default function Home() {
       <section
         id="top"
         data-section="top"
-        className="relative isolate overflow-hidden border-b border-[var(--hairline)]"
+        className="intro-shell relative isolate overflow-hidden border-b border-[var(--hairline)]"
       >
         <div className="hero-mesh" aria-hidden="true" />
-        <div className="mx-auto grid max-w-6xl gap-12 px-4 pb-20 pt-16 sm:px-6 sm:pb-24 sm:pt-24 lg:grid-cols-[1.18fr_0.82fr] lg:items-end lg:px-8 lg:pb-32 lg:pt-32">
-          <div>
+        <div className="technical-grid" aria-hidden="true" />
+
+        <div className="mx-auto max-w-6xl px-4 pt-10 sm:px-6 sm:pt-14 lg:px-8">
+          <div className="intro-sequence" aria-label="Louis Lau introduction">
+            <div className="intro-copy">
+              <p className="mono-label intro-animate intro-delay-1">
+                CSS-first 3D portfolio
+              </p>
+              <p className="intro-name intro-animate intro-delay-2">
+                Louis Lau
+              </p>
+              <p className="intro-role intro-animate intro-delay-3">
+                Year 2 Computer Science Student / Full-Stack Developer
+              </p>
+            </div>
+            <div className="intro-orbit" aria-hidden="true">
+              {introPanels.map((panel, index) => (
+                <span
+                  key={panel}
+                  className={`intro-card intro-card-${index + 1}`}
+                >
+                  {panel}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="hero-section mx-auto grid max-w-6xl gap-12 px-4 pb-20 pt-14 sm:px-6 sm:pb-24 sm:pt-20 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:px-8 lg:pb-32 lg:pt-24">
+          <div className="hero-copy">
             <p className="mono-label hero-animate hero-delay-1">
               Malaysia based developer
             </p>
             <h1 className="hero-animate hero-delay-2 mt-7 max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.06em] text-neutral-950 sm:text-6xl lg:text-7xl">
-              Louis Lau builds practical full-stack, mobile, and AI products.
+              Building useful products with depth, clarity, and reliable code.
             </h1>
             <p className="hero-animate hero-delay-3 mt-8 max-w-2xl text-lg leading-8 text-neutral-600">
-              Year 2 Computer Science student at University of Malaya with a
-              foundation background from University of Technology Malaysia. I
-              focus on clean UI, backend systems, database design, and reliable
-              product execution.
+              I am a Year 2 Computer Science student at University of Malaya
+              focused on full-stack development, mobile AI products, clean UI,
+              backend systems, database design, and practical product-building.
             </p>
             <div className="hero-animate hero-delay-4 mt-10 flex flex-col gap-3 sm:flex-row">
               <a href="#projects" className="button-primary">
@@ -268,31 +330,42 @@ export default function Home() {
             </div>
           </div>
 
-          <aside className="card-surface hero-animate hero-delay-5 p-6 sm:p-8">
-            <dl className="grid gap-5 text-sm">
-              <div>
-                <dt className="mono-label">Role</dt>
-                <dd className="mt-2 font-medium text-neutral-950">
-                  Year 2 Computer Science Student / Full-Stack Developer
-                </dd>
-              </div>
-              <div>
-                <dt className="mono-label">University</dt>
-                <dd className="mt-2 font-medium text-neutral-950">
-                  University of Malaya
-                </dd>
-              </div>
-              <div>
-                <dt className="mono-label">Foundation</dt>
-                <dd className="mt-2 font-medium text-neutral-950">
-                  University of Technology Malaysia
-                </dd>
-              </div>
-              <div>
-                <dt className="mono-label">Location</dt>
-                <dd className="mt-2 font-medium text-neutral-950">Malaysia</dd>
-              </div>
-            </dl>
+          <aside
+            className="hero-stage hero-animate hero-delay-5"
+            aria-label="Project and profile highlights"
+          >
+            <div className="stage-plane" aria-hidden="true" />
+            <div className="stage-grid" aria-hidden="true" />
+            {projects.map((project, index) => (
+              <ProjectPreview
+                key={project.name}
+                project={project}
+                index={index}
+              />
+            ))}
+            <div className="profile-slab">
+              <p className="mono-label">Profile</p>
+              <dl className="mt-5 grid gap-4 text-sm">
+                <div>
+                  <dt className="text-neutral-500">University</dt>
+                  <dd className="mt-1 font-medium text-neutral-950">
+                    University of Malaya
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-neutral-500">Foundation</dt>
+                  <dd className="mt-1 font-medium text-neutral-950">
+                    University of Technology Malaysia
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-neutral-500">Location</dt>
+                  <dd className="mt-1 font-medium text-neutral-950">
+                    Malaysia
+                  </dd>
+                </div>
+              </dl>
+            </div>
           </aside>
         </div>
       </section>
@@ -304,7 +377,7 @@ export default function Home() {
             title="Computer science foundation with product execution."
             description="A recruiter-friendly profile for teams looking for a developer who can move from interface to backend structure."
           />
-          <div className="card-surface p-6 sm:p-8" data-reveal>
+          <div className="card-surface depth-card p-6 sm:p-8" data-reveal>
             <p className="text-lg leading-8 text-neutral-700">
               I am a Year 2 Computer Science student at University of Malaya
               with a foundation background from University of Technology
@@ -327,11 +400,11 @@ export default function Home() {
           title="A stack shaped by full-stack, mobile, AI, and product workflows."
           description="Grouped from the technologies used across Repok, MochiMemo, and F&B Genie."
         />
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <div className="depth-grid mt-10 grid gap-4 sm:grid-cols-2">
           {skillGroups.map((group, index) => (
             <article
               key={group.title}
-              className={`card-surface interactive-card p-6 reveal-delay-${index + 1}`}
+              className={`card-surface interactive-card depth-card p-6 reveal-delay-${index + 1}`}
               data-reveal
             >
               <h3 className="text-xl font-semibold tracking-[-0.03em] text-neutral-950">
@@ -361,7 +434,7 @@ export default function Home() {
             description="Main cards stay concise. Expand each project to inspect the resume-level implementation details."
             tone="dark"
           />
-          <div className="mt-10 grid gap-4 lg:grid-cols-3">
+          <div className="project-grid mt-10 grid gap-4 lg:grid-cols-3">
             {projects.map((project, index) => (
               <article
                 key={project.name}
@@ -416,11 +489,11 @@ export default function Home() {
             title="Professional support for practical digital products."
             description="Useful for teams, student builders, and early-stage ideas that need working interfaces and reliable technical structure."
           />
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="depth-grid grid gap-4 sm:grid-cols-2">
             {services.map((service, index) => (
               <article
                 key={service}
-                className={`card-surface interactive-card p-6 reveal-delay-${index + 1}`}
+                className={`card-surface interactive-card depth-card p-6 reveal-delay-${index + 1}`}
                 data-reveal
               >
                 <p className="text-base font-medium leading-7 text-neutral-950">
@@ -439,7 +512,7 @@ export default function Home() {
             title="Open to internships, collaborations, and project conversations."
             description="Reach out directly through email, GitHub, or LinkedIn. No contact form is included until a backend is available."
           />
-          <div className="card-surface p-6 sm:p-8" data-reveal>
+          <div className="card-surface depth-card p-6 sm:p-8" data-reveal>
             <div className="grid gap-4">
               {contactLinks.map((link) => (
                 <a
