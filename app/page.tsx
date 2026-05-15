@@ -3,11 +3,12 @@ import { FloatingNav } from "./components/FloatingNav";
 import { HeroRoleText } from "./components/HeroRoleText";
 import { FooterMarquee } from "./components/FooterMarquee";
 import { PortfolioInteractions } from "./components/PortfolioInteractions";
-import { CursorTurbulenceHero } from "./components/CursorTurbulenceHero";
+import { HeroVideo } from "./components/HeroVideo";
 import {
   ClientLoadingScreen,
   ClientParallaxPlayground,
 } from "./components/ClientShell";
+import { HeroCursorAura } from "./components/HeroCursorAura";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const email = "louislausieyuan2005@gmail.com";
@@ -44,6 +45,9 @@ const projects = [
     screenshot: "/projects/repok.png",
     screenshotAlt:
       "Repok pickleball court booking system — admin dashboard showing court bookings, status chips, and revenue chart",
+    visualType: "dashboard" as const,
+    githubUrl: "https://github.com/yuann1020/Repok_PickleballCourtBookingSystem",
+    liveUrl: "https://repok-rpc.vercel.app/",
   },
   {
     id: "mochi",
@@ -75,6 +79,8 @@ const projects = [
     screenshot: "/projects/mochimemo.png",
     screenshotAlt:
       "MochiMemo AI spending tracker — mobile app interface showing expense history and voice logging",
+    visualType: "mobile" as const,
+    githubUrl: "https://github.com/yuann1020/MochiMemo",
   },
   {
     id: "fnb",
@@ -105,6 +111,8 @@ const projects = [
     screenshot: "/projects/fnb-genie.png",
     screenshotAlt:
       "F&B Genie AI feasibility investigator — workspace showing chat, map, and report interface",
+    visualType: "workspace" as const,
+    githubUrl: "https://github.com/brendan1107/UMH2026",
   },
 ];
 
@@ -273,6 +281,25 @@ function FnbVisualFallback() {
   );
 }
 
+// ─── Inline icons (no dependencies) ─────────────────────────────────────────
+function IconGitHub() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+    </svg>
+  );
+}
+
+function IconExternal() {
+  return (
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+      <polyline points="15,3 21,3 21,9"/>
+      <line x1="10" y1="14" x2="21" y2="3"/>
+    </svg>
+  );
+}
+
 // ─── Project Card ─────────────────────────────────────────────────────────────
 function ProjectCard({
   project,
@@ -288,7 +315,11 @@ function ProjectCard({
   imgSizes: string;
 }) {
   return (
-    <article className={`bento-card ${cardClass} ${revealDelay}`} data-reveal>
+    <article
+      className={`bento-card ${cardClass} ${revealDelay}`}
+      data-reveal
+      data-visual-type={project.visualType}
+    >
       {/* Visual area — screenshot + CSS fallback + overlays */}
       <div className="bento-visual">
         {/* CSS fallback (below screenshot, always rendered) */}
@@ -330,6 +361,32 @@ function ProjectCard({
           ))}
         </div>
 
+        {/* Project links — GitHub always present, Live Demo only if available */}
+        <div className="proj-links">
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="proj-link"
+            aria-label={`${project.name} GitHub repository`}
+          >
+            <IconGitHub />
+            GitHub
+          </a>
+          {"liveUrl" in project && project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="proj-link proj-link--live"
+              aria-label={`${project.name} live demo`}
+            >
+              <IconExternal />
+              Live Demo
+            </a>
+          )}
+        </div>
+
         <details className="proj-details">
           <summary className="proj-summary">
             <span>View implementation details</span>
@@ -369,21 +426,8 @@ export default function Home() {
             <div className="hero-bg-glow hero-bg-glow-2" />
           </div>
 
-          {/* Layer 0: Video background — autoPlay+muted+playsInline required for mobile */}
-          <video
-            className="hero-video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            aria-hidden="true"
-          >
-            <source src="/videos/hero-bg.webm" type="video/webm" />
-          </video>
-
-          {/* Layer 3: Cursor turbulence glass lens (client, desktop only) */}
-          <CursorTurbulenceHero />
+          {/* Layer 0: Video background — client component ensures reliable looping */}
+          <HeroVideo />
 
           {/* Layer 1: Dark overlay — contrast + bottom fade to next section */}
           <div className="hero-video-overlay" aria-hidden="true" />
@@ -391,18 +435,25 @@ export default function Home() {
           {/* Layer 2: Subtle grid texture on top of overlay */}
           <div className="hero-grid-overlay" aria-hidden="true" />
 
+          {/* Layer 3: Soft dark panel behind text — ensures readability on any video frame */}
+          <div className="hero-text-panel" aria-hidden="true" />
+
+          {/* Layer 4: CSS cursor aura — zero WebGL, guaranteed no runtime crash */}
+          <div className="hero-aura" aria-hidden="true" />
+          <HeroCursorAura />
+
           {/* Layer 5: Main content */}
           <div className="hero-content">
             <p className="hero-eyebrow">Portfolio&nbsp;&nbsp;&#x2019;26</p>
 
             <h1 className="hero-name">Louis Lau</h1>
 
-            {/* Stable sentence: fixed-width role container prevents layout shift */}
-            <p className="hero-tagline">
-              A{" "}
-              <HeroRoleText />{" "}
-              building practical digital products.
-            </p>
+            {/* Stable flex row — role slot has fixed width, prefix/suffix never shift */}
+            <div className="hero-role-line">
+              <span className="hero-role-prefix">A</span>
+              <HeroRoleText />
+              <span className="hero-role-suffix">building practical digital products.</span>
+            </div>
 
             <p className="hero-desc">
               I build full-stack, mobile, and AI-assisted products with clean
